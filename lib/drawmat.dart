@@ -1,3 +1,4 @@
 library drawmat;
 
-export 'draws/draws.dart';
+export 'src/draws/draws.dart';
+export 'src/enums/enums.dart';
