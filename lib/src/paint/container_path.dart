@@ -1,70 +1,47 @@
-import 'dart:math';
 import 'dart:ui';
 
+import 'package:drawmat/src/paint/offset_definer.dart';
 import 'package:drawmat/src/paint/path_definer.dart';
 
 class ContainerPath implements PathDefiner {
   @override
-  Path getLowSloppinesPath(Size size) {
+  Path getLowSloppinesPath(Size size, Offset offset) {
     Path path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
+    path.moveTo(offset.dx, offset.dy);
+    path.lineTo(offset.dx, size.height - offset.dy);
+    path.lineTo(size.width - offset.dx, size.height - offset.dy);
+    path.lineTo(size.width - offset.dx, offset.dy);
+    path.lineTo(offset.dx, offset.dy);
     path.close();
     return path;
   }
 
   @override
-  Path getMediumSloppinesPath(Size size) {
+  Path getMediumSloppinesPath(Size size, Offset offset) {
     Path path = Path();
-    Random random = Random();
+    OffsetDefiner offsetDefiner = OffsetDefiner();
+    
+    // Main path
+    path.moveTo(offset.dx, offset.dy);
+    offsetDefiner.quadraticBezierLeft(path, size, offset);
+    offsetDefiner.quadraticBezierBottom(path, size, offset);
+    offsetDefiner.quadraticBezierRight(path, size, offset);
+    offsetDefiner.quadraticBezierTop(path, size, offset);
+
+    // Second path
+    offset = Offset(offset.dx + 3, offset.dy + 3);
+    offsetDefiner.logOffset += 3;
 
     path.moveTo(0, 0);
-    path.quadraticBezierTo(
-        random.nextInt(6).toDouble(), size.height / 2, 0, size.height);
-    path.quadraticBezierTo(size.width / 2,
-        size.height - random.nextInt(6).toDouble(), size.width, size.height);
-    path.quadraticBezierTo(size.width - random.nextInt(6).toDouble(),
-        size.height / 2, size.width, 0);
-    path.quadraticBezierTo(size.width / 2, random.nextInt(6).toDouble(), 0, 0);
-
-    switch (random.nextInt(4)) {
-      case 0:
-        path.moveTo(random.nextInt(3).toDouble(), random.nextInt(3).toDouble());
-        path.quadraticBezierTo(
-            random.nextInt(6).toDouble() + 6, size.height / 2, 0, size.height);
-        break;
-      case 1:
-        path.moveTo(random.nextInt(3).toDouble(),
-            size.height - random.nextInt(3).toDouble());
-        path.quadraticBezierTo(
-            size.width / 2,
-            size.height - random.nextInt(6).toDouble() + 6,
-            size.width,
-            size.height);
-        break;
-      case 2:
-        path.moveTo(size.width - random.nextInt(3).toDouble(),
-            size.height - random.nextInt(3).toDouble());
-        path.quadraticBezierTo(size.width - random.nextInt(6).toDouble() + 6,
-            size.height / 2, size.width, 0);
-        break;
-      case 3:
-        path.moveTo(size.width - random.nextInt(3).toDouble(),
-            random.nextInt(3).toDouble());
-        path.quadraticBezierTo(
-            size.width / 2, random.nextInt(6).toDouble() + 6, 0, 0);
-        break;
-      default:
-    }
-
+    offsetDefiner.quadraticBezierLeft(path, size, offset);
+    offsetDefiner.quadraticBezierBottom(path, size, offset);
+    offsetDefiner.quadraticBezierRight(path, size, offset);
+    offsetDefiner.quadraticBezierTop(path, size, offset);
     return path;
   }
 
   @override
-  Path getHighSloppinesPath(Size size) {
+  Path getHighSloppinesPath(Size size, Offset offset) {
     Path path = Path();
     path.moveTo(0, 0);
     path.lineTo(0, size.height);

@@ -30,11 +30,11 @@ class _DrawContainerPainter extends CustomPainter with ContainerPath {
 
     // Get the path based on the sloppiness.
     if (sloppines == Sloppines.low) {
-      path = getLowSloppinesPath(size);
+      path = getLowSloppinesPath(size, offset);
     } else if (sloppines == Sloppines.medium) {
-      path = getMediumSloppinesPath(size);
+      path = getMediumSloppinesPath(size, offset);
     } else {
-      path = getHighSloppinesPath(size);
+      path = getHighSloppinesPath(size, offset);
     }
 
     // Set the paint style.
