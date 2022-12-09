@@ -41,6 +41,6 @@ class OffsetDefiner {
   void quadraticBezierTop(Path path, Size size, Offset offset, bool newPath) {
     path.quadraticBezierTo(
         size.width / 2, random.nextInt(6) + 1, offset.dx, offset.dy);
-    path.moveTo(offset.dx, offset.dy);
+    moveTo(offset.dx, offset.dy, path, newPath);
   }
 }

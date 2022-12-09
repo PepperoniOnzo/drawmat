@@ -2,11 +2,11 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:drawmat/src/paint/offset_definer.dart';
-import 'package:drawmat/src/paint/path_definer.dart';
+import 'package:drawmat/src/paint/path_border_definer.dart';
 
-class ContainerPath implements PathDefiner {
+class ContainerPathBorder implements PathBorderDefiner {
   @override
-  Path getLowSloppinesPath(Size size, Offset offset) {
+  Path getLowSloppinesBorderPath(Size size, Offset offset) {
     Path path = Path();
     path.moveTo(offset.dx, offset.dy);
     path.lineTo(offset.dx, size.height - offset.dy);
@@ -18,7 +18,7 @@ class ContainerPath implements PathDefiner {
   }
 
   @override
-  Path getMediumSloppinesPath(Size size, Offset offset, int seed) {
+  Path getMediumSloppinesBorderPath(Size size, Offset offset, int seed) {
     Path path = Path();
     Random random = Random(seed);
     OffsetDefiner offsetDefiner = OffsetDefiner(seed: size.height.toInt());
@@ -44,7 +44,7 @@ class ContainerPath implements PathDefiner {
   }
 
   @override
-  Path getHighSloppinesPath(Size size, Offset offset, int seed) {
+  Path getHighSloppinesBorderPath(Size size, Offset offset, int seed) {
     Path path = Path();
     Random random = Random(seed);
     OffsetDefiner offsetDefiner = OffsetDefiner(seed: size.height.toInt());
