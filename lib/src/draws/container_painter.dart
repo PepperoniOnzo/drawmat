@@ -16,12 +16,16 @@ class _DrawContainerPainter extends CustomPainter with ContainerPath {
   /// Offset of the container. Defaults to [Offset.zero].
   final Offset offset;
 
+  /// Seed of the container random. Defaults to [0].
+  final int seed;
+
   _DrawContainerPainter(
       {required this.width,
       required this.sloppines,
       required this.strokeStyle,
       required this.color,
-      required this.offset});
+      required this.offset,
+      required this.seed});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -32,9 +36,9 @@ class _DrawContainerPainter extends CustomPainter with ContainerPath {
     if (sloppines == Sloppines.low) {
       path = getLowSloppinesPath(size, offset);
     } else if (sloppines == Sloppines.medium) {
-      path = getMediumSloppinesPath(size, offset);
+      path = getMediumSloppinesPath(size, offset, seed);
     } else {
-      path = getHighSloppinesPath(size, offset);
+      path = getHighSloppinesPath(size, offset, seed);
     }
 
     // Set the paint style.

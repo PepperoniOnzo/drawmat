@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:drawmat/src/paint/offset_definer.dart';
@@ -17,38 +18,67 @@ class ContainerPath implements PathDefiner {
   }
 
   @override
-  Path getMediumSloppinesPath(Size size, Offset offset) {
+  Path getMediumSloppinesPath(Size size, Offset offset, int seed) {
     Path path = Path();
-    OffsetDefiner offsetDefiner = OffsetDefiner();
-    
+    Random random = Random(seed);
+    OffsetDefiner offsetDefiner = OffsetDefiner(seed: size.height.toInt());
+
     // Main path
     path.moveTo(offset.dx, offset.dy);
-    offsetDefiner.quadraticBezierLeft(path, size, offset);
-    offsetDefiner.quadraticBezierBottom(path, size, offset);
-    offsetDefiner.quadraticBezierRight(path, size, offset);
-    offsetDefiner.quadraticBezierTop(path, size, offset);
+    offsetDefiner.quadraticBezierLeft(path, size, offset, false);
+    offsetDefiner.quadraticBezierBottom(path, size, offset, false);
+    offsetDefiner.quadraticBezierRight(path, size, offset, false);
+    offsetDefiner.quadraticBezierTop(path, size, offset, false);
 
     // Second path
     offset = Offset(offset.dx + 3, offset.dy + 3);
-    offsetDefiner.logOffset += 3;
+    offsetDefiner =
+        OffsetDefiner(seed: size.height.toInt() + random.nextInt(100));
 
-    path.moveTo(0, 0);
-    offsetDefiner.quadraticBezierLeft(path, size, offset);
-    offsetDefiner.quadraticBezierBottom(path, size, offset);
-    offsetDefiner.quadraticBezierRight(path, size, offset);
-    offsetDefiner.quadraticBezierTop(path, size, offset);
+    path.moveTo(offset.dx, offset.dy);
+    offsetDefiner.quadraticBezierLeft(path, size, offset, true);
+    offsetDefiner.quadraticBezierBottom(path, size, offset, true);
+    offsetDefiner.quadraticBezierRight(path, size, offset, true);
+    offsetDefiner.quadraticBezierTop(path, size, offset, true);
     return path;
   }
 
   @override
-  Path getHighSloppinesPath(Size size, Offset offset) {
+  Path getHighSloppinesPath(Size size, Offset offset, int seed) {
     Path path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
-    path.close();
+    Random random = Random(seed);
+    OffsetDefiner offsetDefiner = OffsetDefiner(seed: size.height.toInt());
+
+    // Main path
+    path.moveTo(offset.dx, offset.dy);
+    offsetDefiner.quadraticBezierLeft(path, size, offset, false);
+    offsetDefiner.quadraticBezierBottom(path, size, offset, false);
+    offsetDefiner.quadraticBezierRight(path, size, offset, false);
+    offsetDefiner.quadraticBezierTop(path, size, offset, false);
+
+    // Second path
+    offset = Offset(offset.dx + 3, offset.dy + 3);
+    offsetDefiner =
+        OffsetDefiner(seed: size.height.toInt() + random.nextInt(100));
+
+    path.moveTo(offset.dx, offset.dy);
+    offsetDefiner.quadraticBezierLeft(path, size, offset, true);
+    offsetDefiner.quadraticBezierBottom(path, size, offset, true);
+    offsetDefiner.quadraticBezierRight(path, size, offset, true);
+    offsetDefiner.quadraticBezierTop(path, size, offset, true);
+
+    // Third path
+    offset = Offset(offset.dx - 6, offset.dy - 6);
+    offsetDefiner =
+        OffsetDefiner(seed: size.height.toInt() + random.nextInt(100));
+    offsetDefiner.moveToRandomKoef = 9;
+
+    path.moveTo(offset.dx, offset.dy);
+    offsetDefiner.quadraticBezierLeft(path, size, offset, true);
+    offsetDefiner.quadraticBezierBottom(path, size, offset, true);
+    offsetDefiner.quadraticBezierRight(path, size, offset, true);
+    offsetDefiner.quadraticBezierTop(path, size, offset, true);
+
     return path;
   }
 }

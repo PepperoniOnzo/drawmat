@@ -14,7 +14,8 @@ class DrawContainer extends StatelessWidget {
       this.strokeStyle = StrokeStyle.solid,
       this.color = Colors.black,
       this.width = 2.0,
-      this.offset = const Offset(2, 2)});
+      this.offset = const Offset(5, 5),
+      this.seed = 0});
 
   /// The child widget.
   final Widget child;
@@ -31,14 +32,17 @@ class DrawContainer extends StatelessWidget {
   /// The stroke style of the container. Defaults to [StrokeStyle.solid].
   final StrokeStyle strokeStyle;
 
-  /// Offset of the container. Defaults to [Offset(2, 2)].
-  /// The offset is clamped to a maximum of [Offset(10, 10)] and minimum of [Offset(2, 2)].
+  /// Seed of the container random. Defaults to [0].
+  final int seed;
+
+  /// Offset of the container. Defaults to [Offset(5, 5)].
+  /// The offset is clamped to a maximum of [Offset(10, 10)] and minimum of [Offset(5, 5)].
   final Offset offset;
   set offset(Offset value) {
     if (value > const Offset(10, 10)) {
       offset = const Offset(10, 10);
-    } else if (value < const Offset(2, 2)) {
-      offset = const Offset(2, 2);
+    } else if (value < const Offset(5, 5)) {
+      offset = const Offset(5, 5);
     } else {
       offset = value;
     }
@@ -54,7 +58,8 @@ class DrawContainer extends StatelessWidget {
               color: color,
               strokeStyle: strokeStyle,
               width: width,
-              offset: offset),
+              offset: offset,
+              seed: seed),
           child: child,
         ),
       ),

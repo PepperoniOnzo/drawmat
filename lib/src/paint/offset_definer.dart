@@ -2,44 +2,45 @@ import 'dart:math';
 import 'dart:ui';
 
 class OffsetDefiner {
-  int logBase = 2;
-  int logOffset = 0;
+  int seed;
+  int moveToRandomKoef = 6;
+  late Random random;
 
-  OffsetDefiner([this.logBase = 2, this.logOffset = 0]);
+  OffsetDefiner({required this.seed}) {
+    random = Random(seed);
+  }
 
-  void quadraticBezierLeft(Path path, Size size, Offset offset) {
-    path.quadraticBezierTo(
-        (log(size.height) / log(logBase + 3 + logOffset)) % 5 + 1,
-        size.height / 2,
-        offset.dx,
+  void moveTo(double x, double y, Path path, bool newPath) {
+    if (!newPath) {
+      path.moveTo(x, y);
+      return;
+    }
+    path.moveTo(x + random.nextInt(moveToRandomKoef) - 3,
+        y + random.nextInt(moveToRandomKoef) - 3);
+  }
+
+  void quadraticBezierLeft(Path path, Size size, Offset offset, bool newPath) {
+    path.quadraticBezierTo(random.nextInt(6) + 1, size.height / 2, offset.dx,
         size.height - offset.dy);
-    path.moveTo(offset.dx, size.height - offset.dy);
+    moveTo(offset.dx, size.height - offset.dy, path, newPath);
   }
 
-  void quadraticBezierBottom(Path path, Size size, Offset offset) {
-    path.quadraticBezierTo(
-        size.width / 2,
-        size.height - (log(size.width) / log(logBase + 1 + logOffset)) % 5 + 1,
-        size.width - offset.dx,
-        size.height - offset.dy);
-    path.moveTo(size.width - offset.dx, size.height - offset.dy);
+  void quadraticBezierBottom(
+      Path path, Size size, Offset offset, bool newPath) {
+    path.quadraticBezierTo(size.width / 2, size.height - random.nextInt(6) + 1,
+        size.width - offset.dx, size.height - offset.dy);
+    moveTo(size.width - offset.dx, size.height - offset.dy, path, newPath);
   }
 
-  void quadraticBezierRight(Path path, Size size, Offset offset) {
-    path.quadraticBezierTo(
-        size.width - (log(size.height) / log(logBase + 2 + logOffset)) % 5 + 1,
-        size.height / 2,
-        size.width - offset.dx,
-        offset.dy);
-    path.moveTo(size.width - offset.dx, offset.dy);
+  void quadraticBezierRight(Path path, Size size, Offset offset, bool newPath) {
+    path.quadraticBezierTo(size.width - random.nextInt(6) + 1, size.height / 2,
+        size.width - offset.dx, offset.dy);
+    moveTo(size.width - offset.dx, offset.dy, path, newPath);
   }
 
-  void quadraticBezierTop(Path path, Size size, Offset offset) {
+  void quadraticBezierTop(Path path, Size size, Offset offset, bool newPath) {
     path.quadraticBezierTo(
-        size.width / 2,
-        (log(size.width) / log(logBase + logOffset)) % 5 + 1,
-        offset.dx,
-        offset.dy);
+        size.width / 2, random.nextInt(6) + 1, offset.dx, offset.dy);
     path.moveTo(offset.dx, offset.dy);
   }
 }

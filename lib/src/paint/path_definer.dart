@@ -6,8 +6,8 @@ abstract class PathDefiner {
   Path getLowSloppinesPath(Size size, Offset offset);
 
   /// Returns a path with medium sloppiness.
-  Path getMediumSloppinesPath(Size size, Offset offset);
+  Path getMediumSloppinesPath(Size size, Offset offset, int seed);
 
   /// Returns a path with high sloppiness.
-  Path getHighSloppinesPath(Size size, Offset offset);
+  Path getHighSloppinesPath(Size size, Offset offset, int seed);
 }
