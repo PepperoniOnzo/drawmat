@@ -60,9 +60,9 @@ class _DrawContainerPainter extends CustomPainter
       if (fillsSloppines == Sloppines.low) {
         backgroundPath = getLowSloppinesFillPath(size, offset);
       } else if (fillsSloppines == Sloppines.medium) {
-        //backgroundPath = getMediumSloppinesFillPath(size, offset, seed);
+        backgroundPath = getMediumSloppinesFillPath(size, offset, seed);
       } else {
-        //backgroundPath = getHighSloppinesFillPath(size, offset, seed);
+        backgroundPath = getHighSloppinesFillPath(size, offset, seed);
       }
 
       paint.style = PaintingStyle.stroke;

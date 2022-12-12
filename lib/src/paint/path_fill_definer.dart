@@ -9,4 +9,7 @@ abstract class PathFillDefiner {
 
   /// Returns a path with high sloppiness.
   Path getHighSloppinesFillPath(Size size, Offset offset, int seed);
+
+  /// Returns a path with random for medium and high sloppiness.
+  Path getPathWithRandom(Path path, Size size, Offset offset, int seed);
 }
